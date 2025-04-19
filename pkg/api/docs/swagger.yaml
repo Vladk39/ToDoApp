@@ -1,0 +1,166 @@
+basePath: /
+definitions:
+  api.TaskCreateRequest:
+    description: Структура запроса для создания или обновления задачи
+    properties:
+      description:
+        description: Описание задачи
+        type: string
+      status:
+        description: Статус задачи
+        type: string
+      title:
+        description: Заголовок задачи
+        type: string
+    type: object
+  taskRepository.Task:
+    description: Структура ответа для возвращаемых данных о задаче
+    properties:
+      created_at:
+        description: |-
+          Время создания задачи
+          @example "2023-04-01T12:00:00Z"
+        type: string
+      description:
+        description: |-
+          Описание задачи
+          @example "Пойти в магазин и купить хлеб"
+        type: string
+      id:
+        description: |-
+          ID задачи
+          @example 1
+        type: integer
+      status:
+        description: |-
+          Статус задачи
+          @example "new"
+        type: string
+      title:
+        description: |-
+          Заголовок задачи
+          @example "Купить хлеб"
+        type: string
+      updated_at:
+        description: |-
+          Время последнего обновления задачи
+          @example "2023-04-02T14:00:00Z"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Простой API для управления задачами
+  title: ToDo API
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      description: Получить список всех задач
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/taskRepository.Task'
+            type: array
+        "500":
+          description: Ошибка получения списка задач
+          schema:
+            type: string
+      summary: Получить все задачи
+      tags:
+      - tasks
+    post:
+      consumes:
+      - application/json
+      description: Добавить новую задачу
+      parameters:
+      - description: Новая задача
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/api.TaskCreateRequest'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Задача создана
+          schema:
+            type: string
+        "400":
+          description: неверный формат запроса
+          schema:
+            type: string
+        "500":
+          description: ошибка добавления задачи
+          schema:
+            type: string
+      summary: Создание задачи
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      description: Удалить задачу по ID
+      parameters:
+      - description: ID задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Задача удалена
+          schema:
+            type: string
+        "400":
+          description: неверный ID
+          schema:
+            type: string
+        "500":
+          description: Ошибка удаления
+          schema:
+            type: string
+      summary: Удаление задачи
+      tags:
+      - tasks
+    put:
+      consumes:
+      - application/json
+      description: Обновить задачу по ID
+      parameters:
+      - description: ID задачи
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновлённая задача
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/api.TaskCreateRequest'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: Задача обновлена
+          schema:
+            type: string
+        "400":
+          description: Неверный формат
+          schema:
+            type: string
+        "500":
+          description: Ошибка обновления задачи
+          schema:
+            type: string
+      summary: Обновление задачи
+      tags:
+      - tasks
+swagger: "2.0"

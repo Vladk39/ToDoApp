@@ -1,0 +1,9 @@
+.git
+Dockerfile
+README.md
+*.swp
+*.log
+bin/
+.vscode
+__debug*
+.env
