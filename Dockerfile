@@ -13,8 +13,8 @@ FROM alpine:latest
 
 WORKDIR /root/
 
-COPY --from=builder /app/todoapp .
+COPY --from=builder /app/ToDoApp .
 
 EXPOSE 8080
 
-CMD ["./todoapp"]
+CMD ["./ToDoAp"]
